@@ -1,0 +1,61 @@
+# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
+
+name: Publish Node.js Package to GitHub Packages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '20.x'
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          registry-url: 'https://npm.pkg.github.com' # Configure GitHub Packages registry
+          scope: '@myusername' # Replace with your GitHub username or organization
+
+      # Install npm dependencies
+      - name: Install npm dependencies
+        run: npm install
+
+      # Install Bower dependencies (if needed, based on your original workflow)
+      - name: Install Bower dependencies
+        run: |
+          npm install -g bower
+          bower install
+        if: hashFiles('bower.json') != '' # Only run if bower.json exists
+
+      # Generate certs.json (if needed, based on your original workflow)
+      - name: Generate certs.json
+        run: node generate-certs-json.js
+        if: hashFiles('generate-certs-json.js') != '' # Only run if the script exists
+
+      # Build the project (optional, customize based on your project)
+      - name: Build project
+        run: npm run build
+        if: hashFiles('package.json') != '' && contains(fromJson(readFile('package.json')).scripts.build, 'build') # Run if build script exists
+
+      # Publish to GitHub Packages
+      - name: Publish to GitHub Packages
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
