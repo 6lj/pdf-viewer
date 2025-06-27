@@ -1,5 +1,5 @@
 {
-  "name": "certificate-viewer",
+  "name": "pdf-viewer",
   "version": "1.0.0",
   "description": "A web application to browse and view PDF certificates using PDF.js",
   "main": "server.js",
