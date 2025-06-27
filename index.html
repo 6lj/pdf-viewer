@@ -35,6 +35,7 @@
         let currentPage = 1;
         let scale = 1;
 
+        // Create particle effects
         function createParticles() {
             console.log('Creating particles...');
             const particlesContainer = document.getElementById('particles');
@@ -50,6 +51,7 @@
             }
         }
 
+      
         async function populateCerts() {
             console.log('Fetching /certs...');
             try {
@@ -74,7 +76,7 @@
                             const li = document.createElement('li');
                             li.className = 'certificate-item';
                             li.innerHTML = file.name;
-                            li.onclick = () => openCertificate(`http:
+                            li.onclick = () => openCertificate(`http://localhost:8000${file.path}`);
                             list.appendChild(li);
                         });
                         itemDiv.querySelector('.folder-title').onclick = () => {
@@ -84,7 +86,7 @@
                     } else {
                         console.log('Adding file:', item.name, item.path);
                         itemDiv.innerHTML = `<div class="certificate-item">${item.name}</div>`;
-                        itemDiv.onclick = () => openCertificate(`http:
+                        itemDiv.onclick = () => openCertificate(`http://localhost:8000${item.path}`);
                     }
                     container.appendChild(itemDiv);
                 });
@@ -94,6 +96,7 @@
             }
         }
 
+      
         async function openCertificate(pdfPath) {
             console.log('Opening PDF:', pdfPath);
             const modal = document.getElementById('pdfModal');
@@ -101,7 +104,7 @@
             pdfContainer.innerHTML = '<div class="loading">Loading...</div>';
             modal.style.display = 'flex';
             try {
-
+                
                 const response = await fetch(pdfPath, { method: 'HEAD' });
                 if (!response.ok) throw new Error(`PDF not accessible: ${response.status} ${response.statusText}`);
                 console.log('PDF accessible, loading with PDF.js...');
@@ -116,6 +119,7 @@
             }
         }
 
+       
         function renderPage(pageNum) {
             if (!currentPdf) return;
             console.log('Rendering page:', pageNum);
@@ -144,12 +148,14 @@
             });
         }
 
+ 
         function nextPage() {
             if (currentPdf && currentPage < currentPdf.numPages) {
                 currentPage++;
                 renderPage(currentPage);
             }
         }
+
 
         function previousPage() {
             if (currentPdf && currentPage > 1) {
@@ -158,6 +164,7 @@
             }
         }
 
+        
         function closeModal() {
             console.log('Closing modal');
             const modal = document.getElementById('pdfModal');
@@ -174,6 +181,7 @@
                 renderPage(currentPage);
             }
         });
+
 
         document.addEventListener('DOMContentLoaded', () => {
             console.log('DOM loaded, initializing...');
