@@ -1,0 +1,6 @@
+{
+  "name": "certificate-viewer",
+  "dependencies": {
+    "pdfjs-dist": "^2.16.105"
+  }
+}

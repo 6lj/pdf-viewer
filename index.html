@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Viewer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="certs_styles.css">
+    <script src="bower_components/pdfjs-dist/build/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'bower_components/pdfjs-dist/build/pdf.worker.min.js';
+    </script>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    <div class="container">
+        <div class="header">
+            <h1 class="main-title">Certificate Explorer</h1>
+            <p class="subtitle">Browse certificates and folders in the Certs directory</p>
+        </div>
+        <div class="certs-container" id="certs-container"></div>
+    </div>
+    <div class="certificate-modal" id="pdfModal">
+        <div class="certificate-modal-content">
+            <button class="modal-close-btn" onclick="closeModal()">Close</button>
+            <div id="pdfContainer" style="width: 100%; height: 70vh; overflow: auto;"></div>
+            <div class="pdf-nav-buttons">
+                <button class="pdf-nav-btn" onclick="previousPage()">Previous</button>
+                <button class="pdf-nav-btn" onclick="nextPage()">Next</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        let currentPdf = null;
+        let currentPage = 1;
+        let scale = 1;
+
+        // Create particle effects
+        function createParticles() {
+            console.log('Creating particles...');
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.width = `${Math.random() * 4 + 2}px`;
+                particle.style.height = particle.style.width;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Fetch and populate folders and PDFs
+        async function populateCerts() {
+            console.log('Fetching /certs...');
+            try {
+                const response = await fetch('http://localhost:8000/certs');
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status} ${response.statusText}`);
+                const certsData = await response.json();
+                console.log('Certs data:', JSON.stringify(certsData, null, 2));
+                const container = document.getElementById('certs-container');
+                container.innerHTML = '';
+                certsData.forEach(item => {
+                    console.log('Processing item:', item.name);
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'glass-card cert-folder';
+                    if (item.type === 'folder') {
+                        itemDiv.innerHTML = `
+                            <h2 class="folder-title">${item.name}</h2>
+                            <ul class="certificate-list" style="display: none;"></ul>
+                        `;
+                        const list = itemDiv.querySelector('.certificate-list');
+                        item.contents.forEach(file => {
+                            console.log('Adding file:', file.name, file.path);
+                            const li = document.createElement('li');
+                            li.className = 'certificate-item';
+                            li.innerHTML = file.name;
+                            li.onclick = () => openCertificate(`http://localhost:8000${file.path}`);
+                            list.appendChild(li);
+                        });
+                        itemDiv.querySelector('.folder-title').onclick = () => {
+                            const isHidden = list.style.display === 'none';
+                            list.style.display = isHidden ? 'block' : 'none';
+                        };
+                    } else {
+                        console.log('Adding file:', item.name, item.path);
+                        itemDiv.innerHTML = `<div class="certificate-item">${item.name}</div>`;
+                        itemDiv.onclick = () => openCertificate(`http://localhost:8000${item.path}`);
+                    }
+                    container.appendChild(itemDiv);
+                });
+            } catch (error) {
+                console.error('Error fetching certs:', error);
+                alert('Failed to load certificates. Ensure the server is running and check the console.');
+            }
+        }
+
+        // Open PDF in modal
+        async function openCertificate(pdfPath) {
+            console.log('Opening PDF:', pdfPath);
+            const modal = document.getElementById('pdfModal');
+            const pdfContainer = document.getElementById('pdfContainer');
+            pdfContainer.innerHTML = '<div class="loading">Loading...</div>';
+            modal.style.display = 'flex';
+            try {
+                // Test PDF accessibility
+                const response = await fetch(pdfPath, { method: 'HEAD' });
+                if (!response.ok) throw new Error(`PDF not accessible: ${response.status} ${response.statusText}`);
+                console.log('PDF accessible, loading with PDF.js...');
+                currentPdf = await pdfjsLib.getDocument(pdfPath).promise;
+                console.log('PDF loaded, pages:', currentPdf.numPages);
+                currentPage = 1;
+                renderPage(currentPage);
+            } catch (error) {
+                console.error('PDF load error:', error);
+                pdfContainer.innerHTML = '';
+                alert(`Error loading PDF: ${pdfPath}. Check the file and server.`);
+            }
+        }
+
+        // Render PDF page with auto-sizing
+        function renderPage(pageNum) {
+            if (!currentPdf) return;
+            console.log('Rendering page:', pageNum);
+            const pdfContainer = document.getElementById('pdfContainer');
+            pdfContainer.innerHTML = '';
+            const canvas = document.createElement('canvas');
+            canvas.className = 'pdf-canvas';
+            pdfContainer.appendChild(canvas);
+            const context = canvas.getContext('2d');
+            currentPdf.getPage(pageNum).then(page => {
+                const containerWidth = pdfContainer.offsetWidth;
+                const containerHeight = pdfContainer.offsetHeight;
+                const viewport = page.getViewport({ scale: 1 });
+                const scaleX = containerWidth / viewport.width;
+                const scaleY = containerHeight / viewport.height;
+                scale = Math.min(scaleX, scaleY); // Fit to width or height
+                const scaledViewport = page.getViewport({ scale });
+                canvas.width = scaledViewport.width;
+                canvas.height = scaledViewport.height;
+                console.log('Canvas size:', canvas.width, canvas.height, 'Scale:', scale);
+                page.render({ canvasContext: context, viewport: scaledViewport });
+                console.log('Page rendered:', pageNum);
+            }).catch(error => {
+                console.error('Page render error:', error);
+                alert('Error rendering PDF page.');
+            });
+        }
+
+        // Navigate to next page
+        function nextPage() {
+            if (currentPdf && currentPage < currentPdf.numPages) {
+                currentPage++;
+                renderPage(currentPage);
+            }
+        }
+
+        // Navigate to previous page
+        function previousPage() {
+            if (currentPdf && currentPage > 1) {
+                currentPage--;
+                renderPage(currentPage);
+            }
+        }
+
+        // Close modal
+        function closeModal() {
+            console.log('Closing modal');
+            const modal = document.getElementById('pdfModal');
+            const pdfContainer = document.getElementById('pdfContainer');
+            pdfContainer.innerHTML = '';
+            currentPdf = null;
+            currentPage = 1;
+            scale = 1;
+            modal.style.display = 'none';
+        }
+
+        // Handle window resize for auto-sizing
+        window.addEventListener('resize', () => {
+            if (currentPdf && currentPage) {
+                renderPage(currentPage);
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, initializing...');
+            createParticles();
+            populateCerts();
+            window.addEventListener('scroll', () => {
+                const winScroll = document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                document.querySelector('.scroll-indicator').style.transform = `scaleX(${scrolled / 100})`;
+            });
+        });
+    </script>
+</body>
+</html>

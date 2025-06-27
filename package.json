@@ -1,0 +1,14 @@
+{
+  "name": "certificate-viewer",
+  "version": "1.0.0",
+  "description": "A web application to browse and view PDF certificates in a Certs directory using PDF.js",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "author": "",
+  "license": "ISC"
+}
