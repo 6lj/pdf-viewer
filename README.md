@@ -1,4 +1,4 @@
-# Certificate Viewer
+# PDF Viewer
 
 A web application for browsing and viewing PDF certificates stored in the `certs/` directory.
 
