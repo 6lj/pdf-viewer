@@ -35,7 +35,6 @@
         let currentPage = 1;
         let scale = 1;
 
-        // Create particle effects
         function createParticles() {
             console.log('Creating particles...');
             const particlesContainer = document.getElementById('particles');
@@ -51,7 +50,6 @@
             }
         }
 
-        // Fetch and populate folders and PDFs
         async function populateCerts() {
             console.log('Fetching /certs...');
             try {
@@ -76,7 +74,7 @@
                             const li = document.createElement('li');
                             li.className = 'certificate-item';
                             li.innerHTML = file.name;
-                            li.onclick = () => openCertificate(`http://localhost:8000${file.path}`);
+                            li.onclick = () => openCertificate(`http:
                             list.appendChild(li);
                         });
                         itemDiv.querySelector('.folder-title').onclick = () => {
@@ -86,7 +84,7 @@
                     } else {
                         console.log('Adding file:', item.name, item.path);
                         itemDiv.innerHTML = `<div class="certificate-item">${item.name}</div>`;
-                        itemDiv.onclick = () => openCertificate(`http://localhost:8000${item.path}`);
+                        itemDiv.onclick = () => openCertificate(`http:
                     }
                     container.appendChild(itemDiv);
                 });
@@ -96,7 +94,6 @@
             }
         }
 
-        // Open PDF in modal
         async function openCertificate(pdfPath) {
             console.log('Opening PDF:', pdfPath);
             const modal = document.getElementById('pdfModal');
@@ -104,7 +101,7 @@
             pdfContainer.innerHTML = '<div class="loading">Loading...</div>';
             modal.style.display = 'flex';
             try {
-                // Test PDF accessibility
+
                 const response = await fetch(pdfPath, { method: 'HEAD' });
                 if (!response.ok) throw new Error(`PDF not accessible: ${response.status} ${response.statusText}`);
                 console.log('PDF accessible, loading with PDF.js...');
@@ -119,7 +116,6 @@
             }
         }
 
-        // Render PDF page with auto-sizing
         function renderPage(pageNum) {
             if (!currentPdf) return;
             console.log('Rendering page:', pageNum);
@@ -135,7 +131,7 @@
                 const viewport = page.getViewport({ scale: 1 });
                 const scaleX = containerWidth / viewport.width;
                 const scaleY = containerHeight / viewport.height;
-                scale = Math.min(scaleX, scaleY); // Fit to width or height
+                scale = Math.min(scaleX, scaleY); 
                 const scaledViewport = page.getViewport({ scale });
                 canvas.width = scaledViewport.width;
                 canvas.height = scaledViewport.height;
@@ -148,7 +144,6 @@
             });
         }
 
-        // Navigate to next page
         function nextPage() {
             if (currentPdf && currentPage < currentPdf.numPages) {
                 currentPage++;
@@ -156,7 +151,6 @@
             }
         }
 
-        // Navigate to previous page
         function previousPage() {
             if (currentPdf && currentPage > 1) {
                 currentPage--;
@@ -164,7 +158,6 @@
             }
         }
 
-        // Close modal
         function closeModal() {
             console.log('Closing modal');
             const modal = document.getElementById('pdfModal');
@@ -176,14 +169,12 @@
             modal.style.display = 'none';
         }
 
-        // Handle window resize for auto-sizing
         window.addEventListener('resize', () => {
             if (currentPdf && currentPage) {
                 renderPage(currentPage);
             }
         });
 
-        // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             console.log('DOM loaded, initializing...');
             createParticles();
