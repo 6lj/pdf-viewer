@@ -1,18 +1,13 @@
 {
   "name": "pdf-viewer",
   "version": "1.0.0",
-  "description": "A web application to browse and view PDF certificates using PDF.js",
+  "description": "A web application to browse and view PDF certificates in a Certs directory using PDF.js",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "predeploy": "node generate-certs-json.js"
+    "start": "node server.js"
   },
-  "homepage": "https://pdf-viewer-6lj.azurewebsites.net",
   "dependencies": {
     "express": "^4.18.2"
-  },
-  "devDependencies": {
-    "bower": "^1.8.14"
   },
   "author": "",
   "license": "ISC"
