@@ -1,16 +1,49 @@
 /* Root Variables */
+/* Import Inter font (not directly related to background but included for context) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Root variables used in background and effects */
 :root {
     --primary-green: #00ff88;
-    --primary-orange: #ff6b35;
-    --primary-red: #ff4757;
-    --text-primary: #ffffff;
-    --text-secondary: #a0a0a0;
     --bg-primary: #000000;
-    --bg-card: rgba(255, 255, 255, 0.05);
-    --border-primary: rgba(255, 255, 255, 0.2);
-    --shadow-glow: 0 0 30px rgba(0, 255, 136, 0.3);
+    --text-primary: #ffffff; /* Included as it's referenced in body */
 }
 
+/* Body background */
+body {
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Particle container */
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Individual particle styling */
+.particle {
+    position: absolute;
+    background: var(--primary-green);
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Float animation for particles */
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
 /* General Resets */
 * {
     margin: 0;
@@ -22,40 +55,6 @@ html {
     scroll-behavior: smooth;
 }
 
-/* Body and Background (from styles.css for background) */
-body {
-    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
-    color: var(--text-primary);
-    font-family: 'Inter', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-    position: relative;
-    width: 100%;
-    margin: 0;
-    overflow-x: auto;
-    -webkit-text-size-adjust: none;
-    touch-action: pan-x pan-y;
-    font-size: 16px;
-}
-
-/* Particles */
-.particles {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
-}
-
-.particle {
-    position: absolute;
-    background: var(--primary-green);
-    border-radius: 50%;
-    opacity: 0.6;
-    animation: float 6s ease-in-out infinite;
-}
 
 /* Container */
 .container {
