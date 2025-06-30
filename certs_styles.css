@@ -25,81 +25,85 @@
 
 .items-grid {
     display: grid;
-
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 25px; 
-    padding: 10px; 
+    gap: 25px;
+    padding: 10px;
 }
 
 .item-card {
     background: var(--bg-card);
     backdrop-filter: blur(20px);
     border: 1px solid var(--border-primary);
-    border-radius: 16px; 
+    border-radius: 16px;
     padding: 20px; 
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); 
-    transition: all 0.3s ease; 
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
     opacity: 0;
     transform: translateY(20px);
-    animation: fadeInUp 0.8s ease-out forwards; 
+    animation: fadeInUp 0.8s ease-out forwards;
     cursor: pointer;
     display: flex;
-    flex-direction: column; 
-    align-items: center; 
-    text-align: center; 
-    min-height: 120px; 
-    justify-content: center; 
-    color: var(--text-primary); 
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-height: 120px;
+    justify-content: center;
+    color: var(--text-primary);
+    
+    width: 100%;
+    box-sizing: border-box; 
 }
 
 .item-card:hover {
-    transform: translateY(-8px); 
+    transform: translateY(-8px);
     box-shadow: var(--shadow-glow);
     border-color: var(--primary-green);
 }
 
 .item-icon {
-    font-size: 3.5rem; 
-    color: var(--primary-green); 
-    margin-bottom: 10px; 
+    font-size: 3.5rem;
+    color: var(--primary-green);
+    margin-bottom: 10px;
 }
 
 .item-name {
-    font-size: 1.1rem; 
+    font-size: 1.1rem;
     font-weight: 500;
-    word-break: break-word; 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
-    white-space: nowrap; 
-    max-width: 100%; 
+    word-break: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
 }
 
 .folder-card {
-
+    
+    
 }
 
 .folder-content {
-    display: none; 
+    display: none;
     width: 100%; 
-    margin-top: 15px; 
-    padding-top: 15px;
-    border-top: 1px dashed var(--border-primary); 
+    margin-top: 20px; 
+    padding-top: 20px; 
+    border-top: 1px dashed var(--border-primary);
+    
 }
 
 .folder-content.expanded {
-    display: block; 
+    display: block;
 }
 
 .folder-files-grid {
     display: grid;
-
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 15px; 
+    gap: 15px;
     padding-top: 15px;
+    width: 100%; 
 }
 
 .folder-file-item {
-    background: rgba(255, 255, 255, 0.03); 
+    background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     padding: 15px;
@@ -110,7 +114,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100px; 
+    min-height: 100px;
     color: var(--text-primary);
 }
 
@@ -121,8 +125,8 @@
 }
 
 .folder-file-item .material-icons {
-    font-size: 2.5rem; 
-    color: var(--primary-orange); 
+    font-size: 2.5rem;
+    color: var(--primary-orange);
     margin-bottom: 8px;
 }
 
@@ -134,7 +138,7 @@
     -webkit-text-fill-color: transparent;
     text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
     margin-bottom: 20px;
-    text-align: center; 
+    text-align: center;
 }
 
 .certificate-modal {
@@ -207,7 +211,7 @@
     transition: background 0.3s ease;
     display: flex;
     align-items: center;
-    gap: 5px; 
+    gap: 5px;
 }
 
 .modal-close-btn:hover {
@@ -216,7 +220,7 @@
 
 .pdf-nav-buttons {
     display: flex;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
     justify-content: center;
     gap: 15px;
     margin-top: 20px;
@@ -233,13 +237,13 @@
     font-size: 1rem;
     font-weight: 500;
     transition: background 0.3s ease;
-    display: inline-flex; 
+    display: inline-flex;
     align-items: center;
-    gap: 8px; 
+    gap: 8px;
 }
 
 .pdf-nav-btn .material-icons {
-    font-size: 1.2rem; 
+    font-size: 1.2rem;
 }
 
 .pdf-nav-btn:hover {
@@ -249,7 +253,7 @@
 .pdf-nav-btn:disabled {
     background: var(--text-secondary);
     cursor: not-allowed;
-    opacity: 0.6; 
+    opacity: 0.6;
 }
 
 .empty-state {
@@ -292,7 +296,7 @@
         padding: 20px 15px;
     }
     .items-grid {
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
         gap: 20px;
     }
     .item-card {
@@ -334,7 +338,7 @@
 
 @media (max-width: 768px) {
     .items-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         gap: 15px;
     }
     .item-card {
@@ -348,7 +352,7 @@
         font-size: 0.95rem;
     }
     .folder-files-grid {
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); 
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
         gap: 10px;
     }
     .folder-file-item {
@@ -366,19 +370,19 @@
         font-size: 0.85rem;
     }
     .pdf-nav-buttons {
-        gap: 10px; 
+        gap: 10px;
     }
 }
 
 @media (max-width: 480px) {
     .items-grid {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); 
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
         gap: 10px;
     }
     .item-card {
         padding: 12px;
         min-height: 90px;
-        border-radius: 12px; 
+        border-radius: 12px;
     }
     .item-icon {
         font-size: 2.2rem;
@@ -405,13 +409,13 @@
     .modal-close-btn, .pdf-nav-btn {
         padding: 6px 12px;
         font-size: 0.8rem;
-        flex: 1 1 auto; 
-        min-width: 80px; 
+        flex: 1 1 auto;
+        min-width: 80px;
     }
     .pdf-nav-buttons {
-        flex-direction: column; 
+        flex-direction: column;
         gap: 8px;
-        align-items: stretch; 
+        align-items: stretch;
     }
     .modal-close-btn {
         top: 15px;
