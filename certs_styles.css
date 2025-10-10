@@ -22,8 +22,8 @@ html {
 /* CSS Variables */
 :root {
     --primary-green: #00ff88;
-    --primary-orange: #ff6b35;
-    --primary-red: #ff4757;
+    --primary-orange: #ffffff;
+    --primary-red: #ffffff;
     --text-primary: #ffffff;
     --text-secondary: #a0a0a0;
     --bg-primary: #000000;
@@ -176,15 +176,6 @@ body {
     word-wrap: break-word;
 }
 
-/* Folder specific styles */
-.folder-card {
-    border-color: var(--primary-orange);
-}
-
-.folder-card:hover {
-    border-color: var(--primary-orange);
-    box-shadow: 0 0 30px rgba(255, 107, 53, 0.3);
-}
 
 /* Folder content styles moved to worker.js to avoid conflicts */
 
@@ -304,7 +295,7 @@ body {
 .modal-close-btn:hover {
     background: var(--primary-red); 
     border-color: var(--primary-red); 
-    color: var(--text-primary); 
+    color: var(--bg-primary); 
 }
 
 
@@ -501,6 +492,7 @@ body {
 
 .submit-btn:hover {
     background: var(--primary-orange);
+    color: var(--bg-primary);
     transform: translateY(-2px);
 }
 
