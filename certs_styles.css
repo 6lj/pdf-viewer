@@ -91,7 +91,7 @@ body {
 .main-title {
     font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 700;
-    background: linear-gradient(45deg, var(--primary-green), var(--primary-orange));
+    background: linear-gradient(45deg, var(--primary-green), #ff6b35);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
