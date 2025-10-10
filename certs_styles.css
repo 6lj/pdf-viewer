@@ -154,11 +154,6 @@ body {
     cursor: pointer;
     text-align: center;
     position: relative;
-    min-height: 180px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
 
 .item-card:hover {
@@ -168,19 +163,17 @@ body {
 }
 
 .item-icon {
-    font-size: 4rem;
+    font-size: 3rem;
     color: var(--primary-green);
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     display: block;
 }
 
 .item-name {
-    font-size: 1.3rem;
-    font-weight: 600;
+    font-size: 1.2rem;
+    font-weight: 500;
     color: var(--text-primary);
     word-wrap: break-word;
-    line-height: 1.3;
-    text-align: center;
 }
 
 /* Folder specific styles */
@@ -191,16 +184,6 @@ body {
 .folder-card:hover {
     border-color: var(--primary-orange);
     box-shadow: 0 0 30px rgba(255, 107, 53, 0.3);
-}
-
-/* File card styles to match folder cards */
-.file-card {
-    border-color: var(--primary-green);
-}
-
-.file-card:hover {
-    border-color: var(--primary-green);
-    box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
 }
 
 /* Folder content styles moved to worker.js to avoid conflicts */
@@ -243,12 +226,10 @@ body {
 }
 
 .folder-file-item .item-name {
-    font-size: 1.3rem;
-    font-weight: 600;
+    font-size: 1.2rem;
+    font-weight: 500;
     color: var(--text-primary);
     word-wrap: break-word;
-    line-height: 1.3;
-    text-align: center;
 }
 
 /* Empty state */
