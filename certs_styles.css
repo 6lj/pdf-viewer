@@ -186,16 +186,7 @@ body {
     box-shadow: 0 0 30px rgba(255, 107, 53, 0.3);
 }
 
-.folder-content {
-    display: none;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid var(--border-primary);
-}
-
-.folder-content.expanded {
-    display: block;
-}
+/* Folder content styles moved to worker.js to avoid conflicts */
 
 .folder-files-grid {
     display: grid;
